@@ -54,8 +54,15 @@ public class MapDataDrawer
    * @return the index of the row with the lowest value in the given col for the grid
    */
   public  int indexOfMinInCol(int col){
-    
-    return -1;
+    int min=grid[0][col];
+    int index=0;
+    for(int i=0;i<grid.length;i++){
+      if(grid[i][col]<min){
+        min=grid[i][col];
+        index=i;
+      }
+    }
+    return index;
   }
   
   /**
