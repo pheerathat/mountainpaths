@@ -63,10 +63,13 @@ public class MapDataDrawer
    * Colors should be grayscale values 0-255, scaled based on min/max values in grid
    */
   public void drawMap(Graphics g){
-    
-    
-    
-    
+    for(int i=0;i<grid.length;i++){
+      for(int j=0;j<grid[0].length;j++){
+        int c=(int)Math.round(255-(findMaxValue()-grid[i][j])/13.04);
+        g.setColor(new Color(c,c,c));
+        g.fillRect(j,i,1,1);
+      }
+    }
   }
   
   /**
