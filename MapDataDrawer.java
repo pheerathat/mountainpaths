@@ -72,7 +72,7 @@ public class MapDataDrawer
   public void drawMap(Graphics g){
     for(int i=0;i<grid.length;i++){
       for(int j=0;j<grid[0].length;j++){
-        int c=(int)Math.round(255-(findMaxValue()-grid[i][j])/13.04);
+        int c=(int)Math.round(255-(findMaxValue()-grid[i][j])/((findMaxValue()-findMinValue())/255));
         g.setColor(new Color(c,c,c));
         g.fillRect(j,i,1,1);
       }
