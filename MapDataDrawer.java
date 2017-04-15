@@ -85,7 +85,22 @@ public class MapDataDrawer
    * @return the total change in elevation traveled from West-to-East
    */
   public int drawLowestElevPath(Graphics g, int row){
-    return -1;
+    int now=row,sum=0;
+    int j=0;
+    for(int i=0;i<grid[row].length;i++){
+      if(i!=0){
+        int r1=Math.abs(grid[now][i-1]-grid[now-1][i]);
+        int r2=Math.abs(grid[now][i-1]-grid[now][i]);
+        int r3=Math.abs(grid[now][i-1]-grid[now+1][i]);
+        int min=Math.min(Math.min(r1,r2),r3);
+        if(min==r1) now--;
+        else if(min==r3) now++;
+      }
+      sum+=grid[now][i];
+      g.fillRect(i,now,1,1);
+      System.out.print(" "+j++);
+    }
+    return sum;
   }
   
   /**
