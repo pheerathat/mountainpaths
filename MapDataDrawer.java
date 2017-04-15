@@ -85,15 +85,29 @@ public class MapDataDrawer
    * @return the total change in elevation traveled from West-to-East
    */
   public int drawLowestElevPath(Graphics g, int row){
+    Random rd=new Random();
     int now=row,sum=0;
+    int[] r=new int[3];
     for(int i=0;i<grid[row].length;i++){
       if(i!=0){
-        int r1=Math.abs(grid[now][i-1]-grid[now-1][i]);
-        int r2=Math.abs(grid[now][i-1]-grid[now][i]);
-        int r3=Math.abs(grid[now][i-1]-grid[now+1][i]);
-        int min=Math.min(Math.min(r1,r2),r3);
-        if(min==r1) now--;
-        else if(min==r3) now++;
+        if(now==0){
+          r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
+          r[1]=Math.abs(grid[now][i-1]-grid[now+1][i]);
+          if(r[1]<r[0]) now++;
+          else if(r[1]==r[0]) now=rd.nextInt(1)+now;
+        }else if(now==grid[row].length-1){
+          r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
+          r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
+          if(r[1]<r[0]) now--;
+          else if(r[0]==r[1]) now=rd.nextInt(1)+now-1;
+        }else{
+          r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
+          r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
+          r[2]=Math.abs(grid[now][i-1]-grid[now+1][i]);
+          int min=Math.min(Math.min(r[0],r[1]),r[2]);
+          if(r[1]==min) now--;
+          else if(r[2]==min) now++;
+        }
       }
       sum+=grid[now][i];
       g.fillRect(i,now,1,1);
