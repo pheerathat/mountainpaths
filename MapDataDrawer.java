@@ -86,7 +86,6 @@ public class MapDataDrawer
    */
   public int drawLowestElevPath(Graphics g, int row){
     int now=row,sum=0;
-    int j=0;
     for(int i=0;i<grid[row].length;i++){
       if(i!=0){
         int r1=Math.abs(grid[now][i-1]-grid[now-1][i]);
@@ -98,7 +97,6 @@ public class MapDataDrawer
       }
       sum+=grid[now][i];
       g.fillRect(i,now,1,1);
-      System.out.print(" "+j++);
     }
     return sum;
   }
