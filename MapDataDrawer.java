@@ -93,19 +93,23 @@ public class MapDataDrawer
         if(now==0){
           r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
           r[1]=Math.abs(grid[now][i-1]-grid[now+1][i]);
-          if(r[1]<r[0]) now++;
-          else if(r[1]==r[0]) now=rd.nextInt(1)+now;
-        }else if(now==grid[row].length-1){
+          if(r[1]==r[0]) now=rd.nextInt(1)+now;
+          else if(r[1]<r[0]) now++;
+        }else if(now==grid.length-1){
           r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
           r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
-          if(r[1]<r[0]) now--;
-          else if(r[0]==r[1]) now=rd.nextInt(1)+now-1;
+          if(r[1]==r[0]) now=rd.nextInt(1)+(now-1);
+          else if(r[1]<r[0]) now--;
         }else{
           r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
           r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
           r[2]=Math.abs(grid[now][i-1]-grid[now+1][i]);
           int min=Math.min(Math.min(r[0],r[1]),r[2]);
-          if(r[1]==min) now--;
+          if(r[0]==r[1] && r[0]==r[2]) now=rd.nextInt(2)+(now-1);
+          else if(r[0]==r[1] && r[0]==min) now=rd.nextInt(1)+(now-1);
+          else if(r[0]==r[2] && r[0]==min) now=rd.nextInt(1)+now;
+          else if(r[1]==r[2] && r[1]==min) now=(rd.nextInt(1)*2)+(now-1);
+          else if(r[1]==min) now--;
           else if(r[2]==min) now++;
         }
       }
@@ -119,7 +123,15 @@ public class MapDataDrawer
    * @return the index of the starting row for the lowest-elevation-change path in the entire grid.
    */
   public int indexOfLowestElevPath(Graphics g){
-    return -1;
+    int minSum=drawLowestElevPath(g,0);
+    int minRow=0;
+    for(int i=1;i<grid.length;i++){
+      if(drawLowestElevPath(g,i) <= minSum) {
+        minSum=drawLowestElevPath(g,i);
+        minRow=i;
+      }
+    }
+    return minRow;
     
   }
   
