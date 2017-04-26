@@ -86,34 +86,89 @@ public class MapDataDrawer
    */
   public int drawLowestElevPath(Graphics g, int row){
     Random rd=new Random();
-    int now=row,sum=0;
+    int now=row,sum=0,mini=0,tmp;
     int[] r=new int[3];
     for(int i=0;i<grid[row].length;i++){
       if(i!=0){
         if(now==0){
           r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
           r[1]=Math.abs(grid[now][i-1]-grid[now+1][i]);
-          if(r[1]==r[0]) now=rd.nextInt(1)+now;
-          else if(r[1]<r[0]) now++;
+          if(r[1]==r[0]){
+            tmp=r[rd.nextInt(2)];
+            if(tmp==r[1]){
+              now++;
+              mini=r[1];
+            }else mini=r[0];
+          }
+          else if(r[1]<r[0]){
+            now++;
+            mini=r[1];
+          }else mini=r[0];
         }else if(now==grid.length-1){
           r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
           r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
-          if(r[1]==r[0]) now=rd.nextInt(1)+(now-1);
-          else if(r[1]<r[0]) now--;
+          if(r[1]==r[0]) {
+            tmp=r[rd.nextInt(2)];
+            if(tmp==r[1]){
+              now--;
+              mini=r[1];
+            }else mini=r[0];
+          }else if(r[1]<r[0]) {
+            now--;
+            mini=r[1];
+          }else mini=r[0];
         }else{
           r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
           r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
           r[2]=Math.abs(grid[now][i-1]-grid[now+1][i]);
           int min=Math.min(Math.min(r[0],r[1]),r[2]);
-          if(r[0]==r[1] && r[0]==r[2]) now=rd.nextInt(2)+(now-1);
-          else if(r[0]==r[1] && r[0]==min) now=rd.nextInt(1)+(now-1);
-          else if(r[0]==r[2] && r[0]==min) now=rd.nextInt(1)+now;
-          else if(r[1]==r[2] && r[1]==min) now=(rd.nextInt(1)*2)+(now-1);
-          else if(r[1]==min) now--;
-          else if(r[2]==min) now++;
+          if(r[0]==r[1] && r[0]==r[2]) {
+            tmp=r[rd.nextInt(3)];
+            if(tmp==r[1]){
+              now--;
+              mini=r[1];
+            }else if(tmp==r[2]){
+              now++;
+              mini=r[2];
+            }else mini=r[0];
+          }
+          else if(r[0]==r[1] && r[0]==min) {
+            tmp=r[rd.nextInt(2)];
+            if(tmp==r[1]){
+              now--;
+              mini=r[1];
+            }else mini=r[0];
+          }
+          else if(r[0]==r[2] && r[0]==min) {
+            tmp=r[rd.nextInt(2)*2];
+            if(tmp==r[2]){
+              now++;
+              mini=r[2];
+            }else mini=r[0];
+          }
+          else if(r[1]==r[2] && r[1]==min) {
+            tmp=r[rd.nextInt(2)+1];
+            if(tmp==r[1]){
+              now--;
+              mini=r[1];
+            }else{
+              now++;
+              mini=r[2];
+            }
+          }
+          else if(r[1]==min) {
+            now--;
+            mini=r[1];
+          }
+          else if(r[2]==min) {
+            now++;
+            mini=r[2];
+          }else if(r[0]==min){
+            mini=r[0];
+          }
         }
       }
-      sum+=grid[now][i];
+      sum+=mini;
       g.fillRect(i,now,1,1);
     }
     return sum;
