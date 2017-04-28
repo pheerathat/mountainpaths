@@ -90,30 +90,26 @@ public class MapDataDrawer
     Random rd=new Random();
     int now=row,sum=0;
     int[] r=new int[3];
-    for(int i=0;i<grid[row].length;i++){
+    int i;
+    for(i=0;i<grid[row].length;i++){
       if(i!=0){
-        if(now==0){
-          r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
-          r[1]=Math.abs(grid[now][i-1]-grid[now+1][i]);
-          if(r[1]==r[0]) now=rd.nextInt(1)+now;
-          else if(r[1]<r[0]) now++;
-        }else if(now==grid.length-1){
-          r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
-          r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
-          if(r[1]==r[0]) now=rd.nextInt(1)+(now-1);
-          else if(r[1]<r[0]) now--;
-        }else{
-          r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
-          r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
-          r[2]=Math.abs(grid[now][i-1]-grid[now+1][i]);
-          int min=Math.min(Math.min(r[0],r[1]),r[2]);
-          if(r[0]==r[1] && r[0]==r[2]) now=rd.nextInt(2)+(now-1);
-          else if(r[0]==r[1] && r[0]==min) now=rd.nextInt(1)+(now-1);
-          else if(r[0]==r[2] && r[0]==min) now=rd.nextInt(1)+now;
-          else if(r[1]==r[2] && r[1]==min) now=(rd.nextInt(1)*2)+(now-1);
-          else if(r[1]==min) now--;
-          else if(r[2]==min) now++;
-        }
+    	  if(now==0){
+              r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
+              r[1]=Math.abs(grid[now][i-1]-grid[now+1][i]);
+              if(r[1]<r[0]) now++;
+    	  }else if(now==grid.length-1){
+              r[0]=Math.abs(grid[now][i-1]-grid[now][i]);
+              r[1]=Math.abs(grid[now][i-1]-grid[now-1][i]);
+              if(r[1]<r[0]) now--;
+    	  }else{
+    		  r[0] = Math.abs(grid[now][i-1]-grid[now][i]);
+    		  r[1] = Math.abs(grid[now][i-1]-grid[now-1][i]);
+    		  r[2] = Math.abs(grid[now][i-1]-grid[now+1][i]);
+    		  int min = Math.min(Math.min(r[0], r[1]), r[2]);
+    		  if(r[1]==r[2] && r[0] != min)	now=((now-1)+(rd.nextInt(1)*2));
+    		  else if(r[1] == min && r[1] < r[0]) now--;
+    		  else if(r[2] == min && r[2] < r[0]) now++;
+    	  }
       }
       sum+=grid[now][i];
       g.fillRect(i,now,1,1);
