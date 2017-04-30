@@ -72,9 +72,11 @@ public class MapDataDrawer
   public void drawMap(Graphics g){
     int max = findMaxValue();
     int deltaValue = max-findMinValue();
+    int x=deltaValue/255;
+    int c;
     for(int i=0;i<grid.length;i++){
       for(int j=0;j<grid[0].length;j++){
-        int c=(int)Math.round(255-(max-grid[i][j])/((deltaValue)/255));
+        c=(int)Math.round(255-(max-grid[i][j])/x);
         g.setColor(new Color(c,c,c));
         g.fillRect(j,i,1,1);
       }
